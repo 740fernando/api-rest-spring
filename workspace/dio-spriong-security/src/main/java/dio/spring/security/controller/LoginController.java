@@ -15,13 +15,11 @@ public class LoginController implements ConstantsUtils {
 	}
 	
 	@GetMapping("/users")
-	@PreAuthorize("hasAnyRole('MANAGERS','USERS')")
 	public String users() {
 		return AUTHORIZED_USER;
 	}
 	
 	@GetMapping("/managers")
-	@PreAuthorize("hasRole('MANAGERS')")
 	public String managers() {
 		return AUTHORIZED_MANAGER;
 	}
