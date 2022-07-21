@@ -23,5 +23,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.password("{noop}master123")
 		.roles("MANAGERS");
 	}
-
 }
