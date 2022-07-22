@@ -3,11 +3,13 @@ package dio.spring.security.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
-import dio.spring.security.model.User;
+import dio.spring.security.model.ClientUser;
 
-public interface UserRepository extends JpaRepository<User, Integer> {
+@Repository
+public interface UserRepository extends JpaRepository<ClientUser, Integer> {
 
-	@Query("SELECT e From User e JOIN FETCH e.roles WHERE e.roles WHERE e.username = (:username)")
-	public User findByUserName(@Param ("username") String username);
+	@Query("SELECT e From ClientUser e JOIN FETCH e.roles WHERE e.username= (:username)")
+	public ClientUser findByUserName(@Param ("username") String username);
 }
