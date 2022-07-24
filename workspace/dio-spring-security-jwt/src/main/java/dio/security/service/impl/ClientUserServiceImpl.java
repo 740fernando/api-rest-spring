@@ -1,19 +1,17 @@
 package dio.security.service.impl;
 
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import dio.security.model.ClientUser;
 import dio.security.repository.ClientUserRepository;
-import dio.security.service.ClienUserService;
+import dio.security.service.ClientUserService;
 
-public class ClienUserServiceImpl implements ClienUserService {
+public class ClientUserServiceImpl implements ClientUserService {
 
 	private final ClientUserRepository repository;
 	private final PasswordEncoder encoder;
 	
-	public ClienUserServiceImpl(ClientUserRepository repository, PasswordEncoder encoder) {
-		super();
+	public ClientUserServiceImpl(ClientUserRepository repository, PasswordEncoder encoder) {
 		this.repository = repository;
 		this.encoder = encoder;
 	}
