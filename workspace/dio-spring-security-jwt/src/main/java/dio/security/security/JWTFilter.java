@@ -27,28 +27,29 @@ public class JWTFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		String token = request.getHeader(JWTCreator.HEADER_AUTHORIZATION);
-		
+
 		try {
-			if(Objects.isNull(token) && !token.isEmpty()) {
+			if (!Objects.isNull(token) && !token.isEmpty()) {
 				JWTObject tokenObject = JWTCreator.create(token, SecurityConfig.PREFIX, SecurityConfig.KEY);
 				List<SimpleGrantedAuthority> authorities = authorities(tokenObject.getRoles());
+
+				UsernamePasswordAuthenticationToken userToken = new UsernamePasswordAuthenticationToken(
+						tokenObject.getSubject(), null, authorities);
 				
-				UsernamePasswordAuthenticationToken userToken = new UsernamePasswordAuthenticationToken(tokenObject.getSubject(),null, authorities);
-				
-				
-			}else {
+				SecurityContextHolder.getContext().setAuthentication(userToken);
+
+			} else {
 				SecurityContextHolder.clearContext();
 			}
 			filterChain.doFilter(request, response);
-		}catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException e) {
-            e.printStackTrace();
-            response.setStatus(HttpStatus.FORBIDDEN.value());
-            return;
-        }
-    }
-	
-	private List<SimpleGrantedAuthority> authorities(List<String> roles){
+		} catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException e) {
+			e.printStackTrace();
+			response.setStatus(HttpStatus.FORBIDDEN.value());
+			return;
+		}
+	}
+
+	private List<SimpleGrantedAuthority> authorities(List<String> roles) {
 		return roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 	}
 }
-
