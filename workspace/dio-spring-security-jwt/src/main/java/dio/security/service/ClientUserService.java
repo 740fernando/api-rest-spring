@@ -2,7 +2,7 @@ package dio.security.service;
 
 import dio.security.model.ClientUser;
 
-public interface ClienUserService {
+public interface ClientUserService {
 
 	void createUser(ClientUser request);
 }
